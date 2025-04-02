@@ -16,7 +16,7 @@ const __dirname = path.dirname(__filename);
 
 export const app = express();
 
-// const server = http.createServer(app);
+const server = http.createServer(app);
 app.use(express.static(path.join(__dirname, "dist"), { 
   extensions: ['html', 'js', 'css', 'png', 'jpg', 'svg', 'json']
 }));
@@ -24,44 +24,44 @@ app.use(express.static(path.join(__dirname, "dist"), {
 app.use(express.json());
 app.use(cookieParser());
 
-// const io = new Server(server);
+const io = new Server(server);
 
-// let onlineUsers = [];
+let onlineUsers = [];
 
-// const addUser = (userId, socketId) => {
-//   if (!onlineUsers.some((user) => user.userId === userId)) {
-//     onlineUsers.push({ userId, socketId });
-//   }
-// };
+const addUser = (userId, socketId) => {
+  if (!onlineUsers.some((user) => user.userId === userId)) {
+    onlineUsers.push({ userId, socketId });
+  }
+};
 
-// const removeUser = (socketId) => {
-//   onlineUsers = onlineUsers.filter((user) => user.socketId !== socketId);
-// };
+const removeUser = (socketId) => {
+  onlineUsers = onlineUsers.filter((user) => user.socketId !== socketId);
+};
 
-// const getUser = (userId) => {
-//   return onlineUsers.find((user) => user.userId === userId);
-// };
+const getUser = (userId) => {
+  return onlineUsers.find((user) => user.userId === userId);
+};
 
-// io.on("connection", (socket) => {
-//   console.log("A user connected:", socket.id);
+io.on("connection", (socket) => {
+  console.log("A user connected:", socket.id);
 
-//   socket.on("newUser", (userId) => {
-//     addUser(userId, socket.id);
-//     console.log("User added:", onlineUsers);
-//   });
+  socket.on("newUser", (userId) => {
+    addUser(userId, socket.id);
+    console.log("User added:", onlineUsers);
+  });
 
-//   socket.on("sendMessage", ({ receiverId, data }) => {
-//     const receiver = getUser(receiverId);
-//     if (receiver) {
-//       io.to(receiver.socketId).emit("getMessage", data);
-//     }
-//   });
+  socket.on("sendMessage", ({ receiverId, data }) => {
+    const receiver = getUser(receiverId);
+    if (receiver) {
+      io.to(receiver.socketId).emit("getMessage", data);
+    }
+  });
 
-//   socket.on("disconnect", () => {
-//     console.log("User disconnected:", socket.id);
-//     removeUser(socket.id);
-//   });
-// });
+  socket.on("disconnect", () => {
+    console.log("User disconnected:", socket.id);
+    removeUser(socket.id);
+  });
+});
 
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
