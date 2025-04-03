@@ -11,15 +11,15 @@ import chatRoute from "./routes/chat.route.js";
 import messageRoute from "./routes/message.route.js";
 import { fileURLToPath } from "url"; 
 
-const __filename = fileURLToPath(import.meta.url);  // Get current file's URL
-const __dirname = path.dirname(__filename);  
+// const __filename = fileURLToPath(import.meta.url);  // Get current file's URL
+// const __dirname = path.dirname(__filename);  
 
 export const app = express();
 
 const server = http.createServer(app);
-app.use(express.static(path.join(__dirname, "dist"), { 
-  extensions: ['html', 'js', 'css', 'png', 'jpg', 'svg', 'json']
-}));
+// app.use(express.static(path.join(__dirname, "dist"),{ 
+//   extensions: ['html', 'js', 'css', 'png', 'jpg', 'svg', 'json']
+// }));
 
 app.use(express.json());
 app.use(cookieParser());
@@ -70,10 +70,10 @@ app.use("/api/test", testRoute);
 app.use("/api/chats", chatRoute);
 app.use("/api/messages", messageRoute);
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "dist", "index.html"));
-});
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "dist", "index.html"));
+// });
 
-// const PORT = process.env.PORT || 8800;
-// app.listen(PORT, () => console.log(`Server running on port http://localhost:${PORT}`));
+const PORT = process.env.PORT || 8800;
+app.listen(PORT, () => console.log(`Server running on port http://localhost:${PORT}`));
 export default app;
