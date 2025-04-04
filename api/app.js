@@ -23,6 +23,13 @@ export const app = express();
 //   );
 //   next();
 // });
+app.use((req, res, next) => {
+  res.setHeader(
+    "Content-Security-Policy",
+    "default-src 'self'; font-src 'self' https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;"
+  );
+  next();
+});
 const server = http.createServer(app);
 app.use(express.static(path.join(__dirname, "dist")));
 // app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
