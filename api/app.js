@@ -23,13 +23,6 @@ export const app = express();
 //   );
 //   next();
 // });
-app.use((req, res, next) => {
-  res.setHeader(
-    "Content-Security-Policy",
-    "default-src 'self'; font-src 'self' https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;"
-  );
-  next();
-});
 const server = http.createServer(app);
 app.use(express.static(path.join(__dirname, "dist")));
 // app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
@@ -86,6 +79,6 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
 
-const PORT = process.env.PORT || 8800;
-app.listen(PORT, () => console.log(`Server running on port http://localhost:${PORT}`));
+// const PORT = process.env.PORT || 8800;
+// app.listen(PORT, () => console.log(`Server running on port http://localhost:${PORT}`));
 export default app;
