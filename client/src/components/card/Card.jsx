@@ -56,7 +56,7 @@ function Card({ item }) {
           
               <img src="/save.png" alt="" /> 
             </div>
-            <div className="icon" onClick={async ()=>{await apiRequest.post("/chats",{receiverId:item.userId}); navigate("/profile");}}>
+            <div className="icon" onClick={async ()=>{if (!currentUser) {navigate("/login");return;};await apiRequest.post("/chats",{receiverId:item.userId}); navigate("/profile");}}>
            <img src="/chat.png" alt="" /> 
             </div>
           </div>

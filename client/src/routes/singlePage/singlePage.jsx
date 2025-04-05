@@ -139,7 +139,7 @@ function SinglePage() {
             <Map items={[post]} />
           </div>
           <div className="buttons">
-            <button onClick={async ()=>{await apiRequest.post("/chats",{receiverId:post.userId}); navigate("/profile");}}>
+            <button onClick={async ()=>{if (!currentUser) {navigate("/login");return;};await apiRequest.post("/chats",{receiverId:post.userId}); navigate("/profile");}}>
               <img src="/chat.png" alt="" />
               Send a Message
             </button>
