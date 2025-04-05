@@ -7,6 +7,7 @@ import { SocketContext } from "../../context/SocketContext";
 import { useNotificationStore } from "../../lib/notificationStore";
 
 function Chat({ chats }) {
+  const formRef = useRef(null); 
   const [chat, setChat] = useState(null);
   const { currentUser } = useContext(AuthContext);
   const { socket } = useContext(SocketContext);
@@ -126,8 +127,15 @@ function Chat({ chats }) {
             ))}
             <div ref={messageEndRef}></div>
           </div>
-          <form onSubmit={handleSubmit} className="bottom">
-            <textarea name="text"></textarea>
+          <form ref={formRef} onSubmit={handleSubmit} className="bottom">
+            <textarea name="text" onKeyDown={(e) => {
+          if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            if (formRef.current) {
+              handleSubmit({ preventDefault: () => {}, target: formRef.current });
+            }
+          }
+        }}></textarea>
             <button>Send</button>
           </form>
         </div>
